@@ -8,16 +8,6 @@ public class PointFollower : MonoBehaviour
     private Transform[] _points;
     private int _curentPointIndex;
 
-    private void Start()
-    {
-        _points = new Transform[_mainPoint.childCount];
-
-        for (int i = 0; i < _mainPoint.childCount; i++)
-        {
-            _points[i] = _mainPoint.GetChild(i).GetComponent<Transform>();
-        }
-    }
- 
     private void Update()
     {
         var targetPoint = _points[_curentPointIndex];
@@ -36,6 +26,19 @@ public class PointFollower : MonoBehaviour
         if (_curentPointIndex >= _points.Length)
         {
             _curentPointIndex = 0;
-        } 
+        }
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Fill Child Array")]
+    private void FillChildArray()
+    {
+        _points = new Transform[_mainPoint.childCount];
+
+        for (int i = 0; i < _mainPoint.childCount; i++)
+        {
+            _points[i] = _mainPoint.GetChild(i);
+        }
+    }
+#endif
 }
